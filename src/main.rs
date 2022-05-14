@@ -38,29 +38,31 @@ fn main() {
         // Get vector of comman-separated values
         let values: Vec<&str> = line.split(",").collect();
 
+        // Check to ensure a valid line is being read
         if values.len() == 3 {
-
 
             // Get the latitude and longitude
             let lat_test: f64 = values[0].trim().parse().unwrap();
             let lon_test: f64 = values[1].trim().parse().unwrap();
 
+            // Calculate difference in longitude and latitude
             let diff_lat: f64 = &lat_test - &lat;
             let diff_lon: f64 = &lon_test - &lon;
 
+            // Calculate overall distance away
             let distance = &diff_lat * &diff_lat + &diff_lon * &diff_lon;
             let distance = distance.powf(0.5);
 
+            // Update the conversion factor if the lowest distance beats
+            // the previous best value
             if distance < lowest_distance {
                 conversion = values[2].trim().parse().unwrap();
                 lowest_distance = distance;
             }
-
         }
-
     }
 
+    // Print results to screen
     println!("Conversion from NAL to LAT is {}m", conversion);
     println!("(nearest grid point was {:.4}° away)", lowest_distance);
-
 }
