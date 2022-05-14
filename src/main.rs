@@ -1,3 +1,6 @@
 fn main() {
-    println!("Hello, world!");
+    
+    // Include the conversion table as text
+    let data = include_str!("NALLAT18.csv");
+
 }
