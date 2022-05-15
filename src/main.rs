@@ -4,6 +4,9 @@ fn main() {
     
     // Include the conversion table as text
     let data = include_str!("NALLAT18.csv");
+    let intro_text = include_str!("intro_text.txt");
+
+    println!("{}", intro_text);
 
     // Infinite loop so users can repeatedly use the program
     loop {
