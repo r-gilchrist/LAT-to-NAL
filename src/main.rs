@@ -6,10 +6,14 @@ fn main() {
     let data = include_str!("NALLAT18.csv");
     let intro_text = include_str!("intro_text.txt");
 
+    // Introduction text to screen
     println!("{}", intro_text);
 
     // Infinite loop so users can repeatedly use the program
     loop {
+
+        // Separator line
+        println!("\n--------Next-Iteration--------\n");
 
         // User input variables
         let mut lat = String::new();
@@ -32,7 +36,7 @@ fn main() {
         let lon: f64 = lon.trim().parse().expect("Please enter a number.");
 
         // Summarise the user input
-        println!("You entered {}°N, {}°E", &lat, &lon);
+        println!("\nYou entered {}°N, {}°E\n", &lat, &lon);
 
         // Initial lowest distance
         let mut lowest_distance: f64 = 180.0;
