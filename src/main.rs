@@ -73,10 +73,11 @@ fn main() {
         }
 
         // Print results to screen
-        println!("Conversion from NAL to LAT is {}m", &conversion);
-        println!("(nearest grid point was {:.4}° away)", &lowest_distance);
+        println!("To convert from NAL to LAT, +{:.3}m", &conversion);
+        println!("To convert from LAT to NAL, -{:.3}m\n", &conversion);
+
+        // Comment about distance to nearest grid point
+        println!("NOTE - the nearest grid point was {:.3}° away", &lowest_distance);
 
     }
-
-    
 }
