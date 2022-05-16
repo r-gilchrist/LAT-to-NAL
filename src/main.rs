@@ -25,15 +25,29 @@ fn main() {
             .read_line(&mut lat)
             .expect("Could not read line");
 
+        // Latitude should be a float. Restart program if not!
+        let lat: f64 = match lat.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Invalid latitude '{}'! Please try again!", &lat.trim());
+                continue
+            }
+        };
+
         // Read longitude from command line
         println!("Enter longitude (decimal degrees):");
         io::stdin()
             .read_line(&mut lon)
             .expect("Could not read line");
 
-        // Latitude and longitude should be floats
-        let lat: f64 = lat.trim().parse().expect("Please enter a number.");
-        let lon: f64 = lon.trim().parse().expect("Please enter a number.");
+        // Longitude should be a float. Restart program if not!
+        let lon: f64 = match lon.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Invalid longitude '{}'! Please try again!", &lon.trim());
+                continue
+            }
+        };
 
         // Summarise the user input
         println!("\nYou entered {}°N, {}°E\n", &lat, &lon);
