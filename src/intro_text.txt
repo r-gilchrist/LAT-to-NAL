@@ -1,7 +1,10 @@
 --------------------------------
-DATUM CONVERTER (NAL TO LAT)
+DATUM CONVERTER
 --------------------------------
 
 Created by Ryan Gilchrist
 
-Converts NAL to LAT using the 'NLLAT18' dataset
+Calculates conversion between vertical datums:
+
+	- NAL (Normal Amsterdam Level)
+	- LAT (Lowest Astronomical Tide)
