@@ -20,7 +20,7 @@ fn main() {
         let mut lon = String::new();
 
         // Read latitude from command line
-        println!("Enter latitude (decimal degrees):");
+        println!("Enter latitude (range: 51.3° - 55.8°N):");
         io::stdin()
             .read_line(&mut lat)
             .expect("Could not read line");
@@ -34,8 +34,14 @@ fn main() {
             }
         };
 
+        // Latitude should be within the specified range
+        if lat < 51.3 || lat > 55.8 {
+            println!("Latitude is out of range! Please try again");
+            continue
+        };
+
         // Read longitude from command line
-        println!("Enter longitude (decimal degrees):");
+        println!("Enter longitude (range: 2.5°E 7.5°E):");
         io::stdin()
             .read_line(&mut lon)
             .expect("Could not read line");
@@ -47,6 +53,12 @@ fn main() {
                 println!("Invalid longitude '{}'! Please try again!", &lon.trim());
                 continue
             }
+        };
+
+        // Longitude should be within the specified range
+        if lon < 2.5 || lon > 7.5 {
+            println!("Longitude is out of range! Please try again");
+            continue
         };
 
         // Summarise the user input
