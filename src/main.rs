@@ -2,36 +2,28 @@ use std::io;
 
 fn main() {
 
-    // Latitude and longitude bounds
     let minimum_lat: f64 = 51.3;
     let maximum_lat: f64 = 55.8;
     let minimum_lon: f64 = 2.5;
     let maximum_lon: f64 = 7.5;
-    
-    // Include the conversion table as text
+
     let data = include_str!("NALLAT18.csv");
-    let intro_text = include_str!("intro_text.txt");
 
-    // Introduction text to screen
-    println!("{}", intro_text);
+    let introduction_text = include_str!("intro_text.txt");
+    println!("{}", introduction_text);
 
-    // Infinite loop so users can repeatedly use the program
     loop {
 
-        // Separator line
         println!("\n--------Next-Iteration--------\n");
 
-        // User input variables
+        // User input of latitude
         let mut lat = String::new();
-        let mut lon = String::new();
-
-        // Read latitude from command line
         println!("Enter latitude (range: 51.3° - 55.8°N):");
         io::stdin()
             .read_line(&mut lat)
             .expect("Could not read line");
 
-        // Latitude should be a float. Restart program if not!
+        // Latitude should be a float
         let lat: f64 = match lat.trim().parse() {
             Ok(num) => num,
             Err(_) => {
@@ -40,19 +32,20 @@ fn main() {
             }
         };
 
-        // Latitude should be within the specified range
+        // Check latitude is within bounds
         if &lat < &minimum_lat || &lat > &maximum_lat {
             println!("Latitude is out of range! Please try again");
             continue
         };
 
-        // Read longitude from command line
+        // User input of longitude
+        let mut lon = String::new();
         println!("Enter longitude (range: 2.5°E - 7.5°E):");
         io::stdin()
             .read_line(&mut lon)
             .expect("Could not read line");
 
-        // Longitude should be a float. Restart program if not!
+        // Longitude should be a float
         let lon: f64 = match lon.trim().parse() {
             Ok(num) => num,
             Err(_) => {
@@ -61,54 +54,47 @@ fn main() {
             }
         };
 
-        // Longitude should be within the specified range
+        // Check longitude is within bounds
         if &lon < &minimum_lon || &lon > &maximum_lon {
             println!("Longitude is out of range! Please try again");
             continue
         };
 
-        // Summarise the user input
         println!("\nYou entered {}°N, {}°E\n", &lat, &lon);
 
-        // Initial lowest distance
+        // Furthest possible distance away
         let mut lowest_distance: f64 = 180.0;
-        let mut conversion: f64 = -999.0;
+        let mut conversion_factor: f64 = -999.0;
 
-        // Loop over each line in the data and parse values
         for line in data.split("\n") {
 
-            // Get vector of comman-separated values
+            // values are:
+            // [0] -> latitude
+            // [1] -> longitude
+            // [2] -> conversion factor
             let values: Vec<&str> = line.split(",").collect();
 
-            // Check to ensure a valid line is being read
             if values.len() == 3 {
 
-                // Get the latitude and longitude
                 let lat_test: f64 = values[0].trim().parse().unwrap();
                 let lon_test: f64 = values[1].trim().parse().unwrap();
 
-                // Calculate difference in longitude and latitude
                 let diff_lat: f64 = &lat_test - &lat;
                 let diff_lon: f64 = &lon_test - &lon;
 
-                // Calculate overall distance away
-                let distance = &diff_lat * &diff_lat + &diff_lon * &diff_lon;
-                let distance = distance.powf(0.5);
+                let current_distance = &diff_lat * &diff_lat + &diff_lon * &diff_lon;
+                let current_distance = current_distance.powf(0.5);
 
-                // Update the conversion factor if the lowest distance beats
-                // the previous best value
-                if distance < lowest_distance {
-                    conversion = values[2].trim().parse().unwrap();
-                    lowest_distance = distance;
+                // Check if new location is nearer than previous
+                if current_distance < lowest_distance {
+                    conversion_factor = values[2].trim().parse().unwrap();
+                    lowest_distance = current_distance;
                 }
             }
         }
 
-        // Print results to screen
-        println!("To convert from NAL to LAT, +{:.3}m", &conversion);
-        println!("To convert from LAT to NAL, -{:.3}m\n", &conversion);
-
-        // Comment about distance to nearest grid point
+        println!("To convert from NAL to LAT, +{:.3}m", &conversion_factor);
+        println!("To convert from LAT to NAL, -{:.3}m\n", &conversion_factor);
         println!("NOTE - the nearest grid point was {:.3}° away", &lowest_distance);
 
     }
