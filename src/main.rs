@@ -1,6 +1,12 @@
 use std::io;
 
 fn main() {
+
+    // Latitude and longitude bounds
+    let minimum_lat: f64 = 51.3;
+    let maximum_lat: f64 = 55.8;
+    let minimum_lon: f64 = 2.5;
+    let maximum_lon: f64 = 7.5;
     
     // Include the conversion table as text
     let data = include_str!("NALLAT18.csv");
@@ -35,13 +41,13 @@ fn main() {
         };
 
         // Latitude should be within the specified range
-        if lat < 51.3 || lat > 55.8 {
+        if &lat < &minimum_lat || &lat > &maximum_lat {
             println!("Latitude is out of range! Please try again");
             continue
         };
 
         // Read longitude from command line
-        println!("Enter longitude (range: 2.5°E 7.5°E):");
+        println!("Enter longitude (range: 2.5°E - 7.5°E):");
         io::stdin()
             .read_line(&mut lon)
             .expect("Could not read line");
@@ -56,7 +62,7 @@ fn main() {
         };
 
         // Longitude should be within the specified range
-        if lon < 2.5 || lon > 7.5 {
+        if &lon < &minimum_lon || &lon > &maximum_lon {
             println!("Longitude is out of range! Please try again");
             continue
         };
